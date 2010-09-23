@@ -1,0 +1,16 @@
+This uses a slightly modified version of ClientCookie
+(http://wwwsearch.sourceforge.net/ClientCookie/).  Stock ClientCookie
+didn't work with xbmc without commenting out some IE specific modules.
+
+Make sure to enter your username and password in RunSirius.py.
+
+TIPS:
+- Set your "Unknown type Cache - Internet" cache to 0 or 256k.
+- When you first start playing a station, it will play for about 15
+  seconds, then freeze for about 15.  Once it starts playing again
+  it'll be fine for however long you keep playing it.  I haven't
+  found any settings to stop this from happening.
+
+
+Mike Rosack
+mrosack@sacknet.org
