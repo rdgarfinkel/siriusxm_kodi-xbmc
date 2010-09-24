@@ -32,7 +32,9 @@ CACHE_DIR = os.getcwd() + "\\cache"
 class SiriusInterface:
 	def __init__(self, username, password):
 		self.username = username
+		print self.username
 		self.password = md5.new(password).hexdigest()
+		print self.password
 		self.categoryName = ''
 		self.genreName = ''
 		self.channelData = ''
@@ -41,7 +43,7 @@ class SiriusInterface:
 
 
 	def getCategoryList(self):
-		url = 'http://www.sirius.com/sirius/mediaplayer/player/common/lineup/category.jsp?category=&genre=&channel='
+		url = 'http://www.sirius.com/player/listen/play.action?channelKey=&categoryKey=&genreKey='
 		req = urllib2.Request(url, self.txdata, self.txheaders)
 		catPage = ClientCookie.urlopen(req).read()
 		categories = []
@@ -178,12 +180,12 @@ class SiriusInterface:
 		return token
 
 	def findCaptchaID(self, stringData):
-		print "findCaptchaID token:"
+		#print "findCaptchaID token:"
 		target = '<input type="hidden" name="captchaID" value="'
 		position = stringData.find(target)
 		token = stringData[position + len(target) :]
 		token = token[:token.find('">')]
-		print token
+		#print token
 		return token
 	
 	def findCaptchaImage(self, stringData):
@@ -216,20 +218,26 @@ class SiriusInterface:
 
 		#find XBMC script location, and the "cache" folder underneath it; create it if it doesn't exist
 		dir = os.path.join(self.base_path, 'cache')
+		print "cache folder"
+		print dir
 		if not os.path.exists(dir):
 			os.mkdir(dir)
 
 		#find the "captcha.txt" file to create the file storing the username/password
 		path = os.path.join(dir, 'captcha.txt')
 
-		##if the file doesn't exist, create it. most likely this will be a new installation
+		#if the file doesn't exist, create it. most likely this will be a new installation
 		if not os.path.isfile(path):
 			try:
-				f = open(path, 'w')
-				f.write(captchaCodes[ int( imgID ) - 1 ])
+				f = open(path,"w")
 				f.close()
-			except IOError:
+			except:
 				pass
+
+		#write the captcha code to the file for display within the program
+		f = open(path,"w")
+		f.write(captchaCodes[ int( imgID ) - 1 ])
+		f.close()
 
 		return captchaCodes[ int( imgID ) - 1 ]
 
@@ -237,8 +245,8 @@ class SiriusInterface:
 		self.channelData = { 'number' : channelNumber }
 		print self.getSongInfo()
 
-	# Get what's playing info from DogStar Radio
 	def getSongInfo(self):
+		# Get what's playing info from DogStar Radio
 		dogstarUrl = "http://www.dogstarradio.com/channelrss/" + str(self.channelData['number']) + ".txt"
 		tracker=urllib.urlopen(dogstarUrl).read();
 		songInfo = {'artist':'',

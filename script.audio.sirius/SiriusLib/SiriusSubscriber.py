@@ -30,7 +30,7 @@ import md5
 class SiriusInterface(SiriusBase.SiriusInterface):
 
 	def DoLogin(self):
-		url = 'http://www.sirius.com/sirius/servlet/MediaPlayer?activity=selectLoginType'
+		url = 'http://www.sirius.com/player/home/siriushome.action'
 		req = urllib2.Request(url, self.txdata, self.txheaders)
 		loginData = ClientCookie.urlopen(req).read()
 		self.token = self.findToken(loginData)
