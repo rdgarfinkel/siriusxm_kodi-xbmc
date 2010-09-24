@@ -96,7 +96,7 @@ class MainClass(xbmcgui.Window):
 											fontSize,
 											'0xFFFFFF00')
 			self.addControl(self.text)
-			self.text.setLabel('Please exit and restart RunXM by hitting the backspace/back button to quit')
+			self.close()
 
 
 		else:
