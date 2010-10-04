@@ -30,6 +30,7 @@ import md5
 class SiriusInterface(SiriusBase.SiriusInterface):
 
 	def DoLogin(self):
+		#url = 'http://www.sirius.com/player/channel/xenaforward.action'
 		url = 'http://www.sirius.com/player/home/siriushome.action'
 		req = urllib2.Request(url, self.txdata, self.txheaders)
 		loginData = ClientCookie.urlopen(req).read()
@@ -46,6 +47,8 @@ class SiriusInterface(SiriusBase.SiriusInterface):
 									'username':self.username,
 									'captchaID':self.captchaID,
 									'captcha_response':self.captchaAnswer})
+
+	def FinishLogin(self):
 		url = 'http://www.sirius.com/sirius/servlet/MediaPlayerLogin/subscriber'
 		req = urllib2.Request(url, self.txdata, self.txheaders)
 		if(ClientCookie.urlopen(req, params).read().find('redirect to player') != -1):
